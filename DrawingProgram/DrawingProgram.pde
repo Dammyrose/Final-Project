@@ -7,8 +7,9 @@ import ddf.minim.ugens.*;
 
 
 //Global Variables
-float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight, drawingDiameter;
 float menuX, menuY, menuWidth, menuHeight;
+color red=#CE3636, white=#FCEDED, resetButtonColour=#FFFFFF, buttonFill; //Not Night Mode Friendly Colours
+float drawingSurfaceX, drawingSurfaceY, drawingSurfaceWidth, drawingSurfaceHeight, drawingDiameter;
 Boolean draw=false;
 //
 void setup() 
@@ -26,7 +27,7 @@ void setup()
   drawingSurfaceHeight= height*4/5;
   drawingDiameter = width*1/100;
   //
-  menuX= width; 
+  menuX= width*0; 
   menuY= height*0;
   menuWidth = width;
   menuHeight = height*1/10;
@@ -38,9 +39,18 @@ void setup()
 //
 void draw() 
 {
+  //Hover-over
+  if (mouseX > menuX && mouseX < menuX+menuWidth && mouseY > menuY && mouseY< menuY+menuHeight) {
+    buttonFill = red;
+  } else {
+    buttonFill = white;
+  }//End Hover-Over
+  fill(buttonFill); //2-colours to start, remember that nightMode adds choice
+  rect(menuX, menuY, menuWidth, menuHeight);
+  fill(resetButtonColour);
+  //
   if (draw==true && mouseX > drawingSurfaceX && mouseX < drawingSurfaceX+drawingSurfaceWidth && mouseY > drawingSurfaceY && mouseY< drawingSurfaceY+drawingSurfaceHeight) line(mouseX, mouseY, pmouseX, pmouseY);//Example Circle Drawing Tool
   //
-  rect(menuX, menuY, menuWidth, menuHeight);
 };//End draw
 //
 void keyPressed() {
@@ -48,13 +58,16 @@ void keyPressed() {
 //
 void mousePressed() 
 {
-  if (mouseX > drawingSurfaceX && mouseX < drawingSurfaceX+drawingSurfaceWidth && mouseY > drawingSurfaceY && mouseY< drawingSurfaceY+drawingSurfaceHeight);{
-    if(draw == true) {
+  if (mouseX > drawingSurfaceX && mouseX < drawingSurfaceX+drawingSurfaceWidth && mouseY > drawingSurfaceY && mouseY< drawingSurfaceY+drawingSurfaceHeight);
+  {
+    if (draw == true) {
       draw=false;
     } else {
       draw = true;
-    } 
-  } //End drawing tools 
+    }
+  } //End drawing tools
+  //
+  if (mouseX > menuX && mouseX < menuX+menuWidth && mouseY > menuY && mouseY< menuY+menuHeight) exit();
 }//End mousePressed
 //
 //End MAIN Program 
